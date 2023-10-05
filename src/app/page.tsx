@@ -5,6 +5,7 @@ import { CookiesProvider } from "react-cookie";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 import { useLogout } from "@/hooks/useSession";
 import { Button } from "@/components/ui/Button";
+import { ConnectedGongZuoAction } from "@/components/GongZuoAction/ConnectedGongZuoAction";
 
 const Inner = () => {
   const { user } = useLoggedInUser();
@@ -15,6 +16,7 @@ const Inner = () => {
         <div className={Hi}>Hi!</div>
         <div>Here is user</div>
         <div>{JSON.stringify(user)}</div>
+        <ConnectedGongZuoAction />
         <Button variant="secondary" onClick={logout}>
           ログアウト
         </Button>

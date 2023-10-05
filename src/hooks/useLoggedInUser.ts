@@ -15,5 +15,6 @@ export const useLoggedInUser = (handler: Handler = defaultHandler) => {
 
   return {
     user,
+    sessionToken,
   };
 };
