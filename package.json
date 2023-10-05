@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "api:init": "openapi-generator-cli generate -g typescript-fetch -i https://raw.githubusercontent.com/lemolatoon/GongZuo-Infra/master/gongzuo.yaml  -o src/apiClient --additional-properties=supportsES6=true,useSingleRequestParameter=false",
+    "api:generate": "openapi-generator-cli generate"
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.13.0",
@@ -15,6 +17,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
