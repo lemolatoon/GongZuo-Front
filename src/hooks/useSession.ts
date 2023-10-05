@@ -4,21 +4,46 @@ import { useUserRaw } from "@/state/user";
 import { useCallback } from "react";
 import { useCookies } from "react-cookie";
 
+const defaultHandler = (msg: string) => console.error(msg);
+
 type Handler = (errorMessage: string) => void;
 const sessionTokenKey = "sessionToken";
-export const useSession = (handler: Handler) => {
+
+export const useSessionToken = () => {
+  const [cookies, setCookie, removeCookie] = useCookies([sessionTokenKey]);
+
+  const sessionToken: string = cookies[sessionTokenKey];
+  const setSessionToken = useCallback(
+    (sessionToken: string) => {
+      setCookie(sessionTokenKey, sessionToken);
+    },
+    [setCookie]
+  );
+  const removeSessionToken = useCallback(() => {
+    removeCookie(sessionTokenKey);
+  }, [removeCookie]);
+
+  return {
+    sessionToken,
+    setSessionToken,
+    removeSessionToken,
+  };
+};
+
+export const useSession = (handler: Handler = defaultHandler) => {
   const {
     userInfo: { user },
     setUser,
   } = useUserRaw();
 
-  const [cookies, setCookie] = useCookies([sessionTokenKey]);
+  const { sessionToken, setSessionToken: justSetSessionToken } =
+    useSessionToken();
 
   const { userClient } = useUserClient();
 
   const setSessionToken = useCallback(
     async (sessionToken: string) => {
-      setCookie(sessionTokenKey, sessionToken);
+      justSetSessionToken(sessionToken);
       try {
         const user = await userClient.meGet(sessionToken);
         setUser(sessionToken, user);
@@ -26,14 +51,43 @@ export const useSession = (handler: Handler) => {
         errorHandler(e, handler);
       }
     },
-    [userClient, handler, setCookie, setUser]
+    [userClient, handler, justSetSessionToken, setUser]
   );
-
-  const sessionToken = cookies[sessionTokenKey];
 
   return {
     sessionToken,
     user,
     setSessionToken,
+  };
+};
+
+export const useLogout = () => {
+  const { removeSessionToken } = useSessionToken();
+  const { clearUser } = useUserRaw();
+  const logout = useCallback(() => {
+    clearUser();
+    removeSessionToken();
+  }, [clearUser, removeSessionToken]);
+
+  return {
+    logout,
+  };
+};
+
+export const useLogoutOnAllDevices = (handler: Handler = defaultHandler) => {
+  const { userClient } = useUserClient();
+  const { sessionToken, removeSessionToken } = useSessionToken();
+
+  const logoutOnAllDevices = useCallback(async () => {
+    try {
+      await userClient.logoutPost({ sessionToken });
+      removeSessionToken();
+    } catch (e) {
+      errorHandler(e, handler);
+    }
+  }, [handler, removeSessionToken, sessionToken, userClient]);
+
+  return {
+    logoutOnAllDevices,
   };
 };
