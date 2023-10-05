@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "./useSession";
 
 type Handler = (errorMessage: string) => void;
@@ -13,5 +13,7 @@ export const useLoggedInUser = (handler: Handler = defaultHandler) => {
     }
   }, [sessionToken, user, setSessionToken]);
 
-  return user;
+  return {
+    user,
+  };
 };

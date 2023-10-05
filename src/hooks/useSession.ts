@@ -1,12 +1,12 @@
 import { errorHandler } from "@/lib/error";
 import { useUserClient } from "@/state/client";
 import { useUserRaw } from "@/state/user";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useCookies } from "react-cookie";
 
 const defaultHandler = (msg: string) => console.error(msg);
 
-type Handler = (errorMessage: string) => void;
+type Handler<T = string> = (errorMessage: T) => void;
 const sessionTokenKey = "sessionToken";
 
 export const useSessionToken = () => {
@@ -49,6 +49,7 @@ export const useSession = (handler: Handler = defaultHandler) => {
         setUser(sessionToken, user);
       } catch (e) {
         errorHandler(e, handler);
+      } finally {
       }
     },
     [userClient, handler, justSetSessionToken, setUser]

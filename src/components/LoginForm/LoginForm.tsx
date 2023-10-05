@@ -1,4 +1,5 @@
 import { UsersApi } from "@/apiClient";
+import { Button } from "@/components/ui/Button";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -11,13 +12,17 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, form }) => {
   const { register, handleSubmit } = form;
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <label>
-        username: <input {...register("username")} />
-      </label>
-      <label>
-        password: <input type="password" {...register("password")} />
-      </label>
-      <button>ログイン</button>
+      <div>
+        <label>
+          username: <input {...register("username")} />
+        </label>
+      </div>
+      <div>
+        <label>
+          password: <input type="password" {...register("password")} />
+        </label>
+      </div>
+      <Button variant="secondary">ログイン</Button>
     </form>
   );
 };

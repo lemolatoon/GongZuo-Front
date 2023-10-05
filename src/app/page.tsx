@@ -4,9 +4,10 @@ import { ConnectedLoginForm } from "@/components/LoginForm";
 import { CookiesProvider } from "react-cookie";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 import { useLogout } from "@/hooks/useSession";
+import { Button } from "@/components/ui/Button";
 
 const Inner = () => {
-  const user = useLoggedInUser();
+  const { user } = useLoggedInUser();
   const { logout } = useLogout();
   if (user) {
     return (
@@ -14,7 +15,9 @@ const Inner = () => {
         <div className={Hi}>Hi!</div>
         <div>Here is user</div>
         <div>{JSON.stringify(user)}</div>
-        <button onClick={logout}>ログアウト</button>
+        <Button variant="secondary" onClick={logout}>
+          ログアウト
+        </Button>
       </>
     );
   } else {
