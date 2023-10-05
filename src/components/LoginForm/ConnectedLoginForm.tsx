@@ -2,14 +2,15 @@ import React, { useCallback } from "react";
 import { Input, LoginForm } from "./LoginForm";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useUserClient } from "@/state/client";
-import { useUser } from "@/state/user";
 import { errorHandler } from "@/lib/error";
+import { useSession } from "@/hooks/useSession";
 
 export const ConnectedLoginForm = () => {
   const form = useForm<Input>();
 
   const { userClient } = useUserClient();
-  const { setUser } = useUser();
+  const errorMsgHandler = useCallback((msg: string) => console.error(msg), []);
+  const { setSessionToken } = useSession(errorHandler);
 
   const onSubmit: SubmitHandler<Input> = useCallback(
     async ({ username, password }) => {
@@ -18,13 +19,12 @@ export const ConnectedLoginForm = () => {
           username,
           password,
         });
-        let user = await userClient.meGet(sessionToken);
-        setUser(sessionToken, user);
+        setSessionToken(sessionToken);
       } catch (e: unknown) {
-        errorHandler(e, (msg) => console.error(msg));
+        errorHandler(e, errorMsgHandler);
       }
     },
-    [userClient, setUser]
+    [userClient, errorMsgHandler, setSessionToken]
   );
   return <LoginForm form={form} onSubmit={onSubmit} />;
 };

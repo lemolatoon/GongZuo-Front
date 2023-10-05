@@ -2,18 +2,20 @@ import { User } from "@/apiClient";
 import { create } from "zustand";
 
 type UserState = {
-  user_info: {
-    session_token: string | null;
+  userInfo: {
+    sessionToken: string | null;
     user: User | null;
   };
   setUser: (session_token: string, user: User) => void;
 };
 
-export const useUser = create<UserState>((set) => ({
-  user_info: {
-    session_token: null,
+export const useUserRaw = create<UserState>((set) => ({
+  userInfo: {
+    sessionToken: null,
     user: null,
   },
-  setUser: (session_token: string, user: User) =>
-    set(() => ({ user_info: { session_token, user } })),
+  setUser: (sessionToken: string, user: User) =>
+    set(() => ({ userInfo: { sessionToken, user } })),
 }));
+
+export const selectUser = (state: UserState) => state.userInfo.user;

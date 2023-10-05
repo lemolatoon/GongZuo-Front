@@ -1,16 +1,19 @@
 "use client";
 import { Hi } from "./root.css";
-import { useUser } from "@/state/user";
 import { ConnectedLoginForm } from "@/components/LoginForm";
+import { CookiesProvider } from "react-cookie";
+import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 
 export default function Home() {
-  const { user } = useUser((state) => state.user_info);
+  const user = useLoggedInUser();
   return (
-    <main>
-      <div className={Hi}>Hi!</div>
-      <div>Here is user</div>
-      <div>{JSON.stringify(user)}</div>
-      <ConnectedLoginForm />
-    </main>
+    <CookiesProvider>
+      <main>
+        <div className={Hi}>Hi!</div>
+        <div>Here is user</div>
+        <div>{JSON.stringify(user)}</div>
+        <ConnectedLoginForm />
+      </main>
+    </CookiesProvider>
   );
 }
