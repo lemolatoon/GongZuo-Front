@@ -2,23 +2,21 @@ import React, { useCallback } from "react";
 import { GyomuGongZuoAction, NotGyomuGongZuoAction } from "./GongZuoAction";
 import { useGongzuoClient } from "@/state/client";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
-import {
-  ContentKindExt,
-  ContentKindIntoNumber,
-  NotWorkContentType,
-} from "@/lib/contentKind";
+import { ContentKindExt } from "@/lib/contentKind";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { errorHandler } from "@/lib/error";
 import { selectKind, useGyomu } from "@/state/gyomu";
 import { useEndGongzuo, useStartGongzuo } from "@/hooks/useStartEndGongzuo";
+import { useErrorMessageHandler } from "@/hooks/useErrorHandler";
 
 export type Inputs = {
   content: string;
 };
 
 export const ConnectedGongZuoAction = () => {
+  const { handleErrorMessage } = useErrorMessageHandler();
   const { gongzuoClient } = useGongzuoClient();
-  const { user, sessionToken } = useLoggedInUser();
+  const { user, sessionToken } = useLoggedInUser(handleErrorMessage);
   const contentKind = useGyomu(selectKind);
   const form = useForm<Inputs>({
     defaultValues: {
@@ -26,15 +24,14 @@ export const ConnectedGongZuoAction = () => {
     },
   });
 
-  const errMsgHandler = console.error;
-  const { startGongzuo } = useStartGongzuo(errMsgHandler);
-  const { endGongzuo } = useEndGongzuo(errMsgHandler);
+  const { startGongzuo } = useStartGongzuo(handleErrorMessage);
+  const { endGongzuo } = useEndGongzuo(handleErrorMessage);
 
   const onStartGongzuo: SubmitHandler<Inputs> = useCallback(
     async ({ content }) => {
       startGongzuo({ contentKind, content });
     },
-    [errMsgHandler, gongzuoClient, sessionToken, contentKind]
+    [contentKind, startGongzuo]
   );
 
   const onEndGongzuo: SubmitHandler<Inputs> = useCallback(
@@ -43,10 +40,10 @@ export const ConnectedGongZuoAction = () => {
         console.log("onEndGongzuo(not implemented)");
         // await gongzuoClient.gongzuoEndPost(sessionToken);
       } catch (e: unknown) {
-        errorHandler(e, errMsgHandler);
+        errorHandler(e, handleErrorMessage);
       }
     },
-    [errMsgHandler, gongzuoClient, sessionToken, contentKind]
+    [handleErrorMessage, gongzuoClient, sessionToken, contentKind]
   );
 
   if (!user) {

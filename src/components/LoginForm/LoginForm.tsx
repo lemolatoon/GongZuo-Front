@@ -15,22 +15,19 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, form }) => {
     <div className="flex items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-32 w-1/3 p-20 rounded-xl border"
+        className="mt-32 w-2/5 p-10 rounded-xl border"
       >
-        <label className="text-3xl font-bold tracking-widest">
+        <label className="text-xl font-bold tracking-widest">
           Sign in してください :man_bowing:
         </label>
-        <div className="mt-4 text-lg">
+        <div className="mt-4">
           <label>username</label>
-          <Input
-            className="mt-2 text-lg bg-gray-100"
-            {...register("username")}
-          />
+          <Input className="mt-2 bg-gray-100" {...register("username")} />
         </div>
-        <div className="mt-4 text-lg">
+        <div className="mt-4">
           <label>password</label>
           <Input
-            className="mt-2 text-lg bg-gray-100"
+            className="mt-2 bg-gray-100"
             type="password"
             {...register("password")}
           />

@@ -24,7 +24,7 @@ export const useQueryAllGonzuos = (handler: Handler) => {
     }
   }, [sessionToken, gongzuoClient, handler]);
 
-  const result = useQuery([allGongzuosKey], fetcher);
+  const result = useQuery([allGongzuosKey, sessionToken], fetcher);
   return result;
 };
 

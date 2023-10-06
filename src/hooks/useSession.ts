@@ -4,8 +4,6 @@ import { useUserRaw } from "@/state/user";
 import { useCallback, useState } from "react";
 import { useCookies } from "react-cookie";
 
-const defaultHandler = (msg: string) => console.error(msg);
-
 type Handler<T = string> = (errorMessage: T) => void;
 const sessionTokenKey = "sessionToken";
 
@@ -30,7 +28,7 @@ export const useSessionToken = () => {
   };
 };
 
-export const useSession = (handler: Handler = defaultHandler) => {
+export const useSession = (handler: Handler) => {
   const {
     userInfo: { user },
     setUser,
@@ -75,7 +73,7 @@ export const useLogout = () => {
   };
 };
 
-export const useLogoutOnAllDevices = (handler: Handler = defaultHandler) => {
+export const useLogoutOnAllDevices = (handler: Handler) => {
   const { userClient } = useUserClient();
   const { sessionToken, removeSessionToken } = useSessionToken();
 

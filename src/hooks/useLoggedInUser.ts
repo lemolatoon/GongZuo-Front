@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useSession } from "./useSession";
 
 type Handler = (errorMessage: string) => void;
-const defaultHandler = (msg: string) => console.error(msg);
 
-export const useLoggedInUser = (handler: Handler = defaultHandler) => {
+export const useLoggedInUser = (handler: Handler) => {
   const { sessionToken, user, setSessionToken } = useSession(handler);
 
   useEffect(() => {

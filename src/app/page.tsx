@@ -9,13 +9,16 @@ import { ConnectedGyomuRadioButton } from "@/components/GyomuRadioButton";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useQueryAllGonzuos } from "@/hooks/useAllGongzuos";
+import { useErrorMessageHandler } from "@/hooks/useErrorHandler";
+import { Toaster } from "@/components/ui/toaster";
 
 const queryClient = new QueryClient();
 
 const Inner = () => {
-  const { user } = useLoggedInUser();
+  const { handleErrorMessage } = useErrorMessageHandler();
+  const { user } = useLoggedInUser(handleErrorMessage);
   const { logout } = useLogout();
-  const { data } = useQueryAllGonzuos(console.error);
+  const { data } = useQueryAllGonzuos(handleErrorMessage);
   if (user) {
     return (
       <>
@@ -28,7 +31,11 @@ const Inner = () => {
       </>
     );
   } else {
-    return <ConnectedLoginForm />;
+    return (
+      <>
+        <ConnectedLoginForm />
+      </>
+    );
   }
 };
 
@@ -38,6 +45,7 @@ export default function Home() {
       <QueryClientProvider client={queryClient}>
         <main>
           <Inner />
+          <Toaster />
         </main>
       </QueryClientProvider>
     </CookiesProvider>
