@@ -873,7 +873,7 @@
   dependencies:
     "@babel/core" "^7.20.7"
 
-"@vanilla-extract/css@^1.10.0", "@vanilla-extract/css@^1.13.0":
+"@vanilla-extract/css@^1.10.0":
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/@vanilla-extract/css/-/css-1.13.0.tgz#85f521d428f55b0e9599675033caba81194cc6c0"
   integrity sha512-JFFBXhnJrPlGqHBabagXqo5ghXw9mtV270ycIGyLDZG8NAK5eRwAYkMowAxuzK7wZSm67GnETWYB7b0AUmyttg==

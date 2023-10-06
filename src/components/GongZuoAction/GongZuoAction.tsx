@@ -1,7 +1,7 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Inputs } from "./ConnectedGongZuoAction";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   form: ReturnType<typeof useForm<Inputs>>;
@@ -27,9 +27,7 @@ export const GongZuoAction: React.FC<Props> = ({
         </label>
       </div>
       <div>
-        <Button variant="primary" onClick={handleSubmit(onStartGongzuo)}>
-          start
-        </Button>
+        <Button onClick={handleSubmit(onStartGongzuo)}>start</Button>
         <Button variant="secondary" onClick={handleSubmit(onEndGongzuo)}>
           end
         </Button>
