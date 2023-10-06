@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { GongZuoAction } from "./GongZuoAction";
+import { GyomuGongZuoAction, NotGyomuGongZuoAction } from "./GongZuoAction";
 import { useGongzuoClient } from "@/state/client";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 import {
@@ -9,23 +9,18 @@ import {
 } from "@/lib/contentKind";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { errorHandler } from "@/lib/error";
+import { selectKind, useGyomu } from "@/state/gyomu";
 
-export type Inputs =
-  | {
-      contentKind: ContentKindExt.WORK;
-      content: string;
-    }
-  | {
-      contentKind: ContentKindExt.NOT_WORK;
-      content: NotWorkContentType;
-    };
+export type Inputs = {
+  content: string;
+};
 
 export const ConnectedGongZuoAction = () => {
   const { gongzuoClient } = useGongzuoClient();
   const { user, sessionToken } = useLoggedInUser();
+  const contentKind = useGyomu(selectKind);
   const form = useForm<Inputs>({
     defaultValues: {
-      contentKind: ContentKindExt.WORK,
       content: "",
     },
   });
@@ -33,7 +28,7 @@ export const ConnectedGongZuoAction = () => {
   const errMsgHandler = console.error;
 
   const onStartGongzuo: SubmitHandler<Inputs> = useCallback(
-    async ({ content, contentKind }) => {
+    async ({ content }) => {
       try {
         await gongzuoClient.start(sessionToken, {
           contentKind: ContentKindIntoNumber(contentKind),
@@ -43,11 +38,11 @@ export const ConnectedGongZuoAction = () => {
         errorHandler(e, errMsgHandler);
       }
     },
-    [errMsgHandler, gongzuoClient, sessionToken]
+    [errMsgHandler, gongzuoClient, sessionToken, contentKind]
   );
 
   const onEndGongzuo: SubmitHandler<Inputs> = useCallback(
-    async ({ content, contentKind }) => {
+    async ({ content }) => {
       try {
         console.log("onEndGongzuo(not implemented)");
         // await gongzuoClient.gongzuoEndPost(sessionToken);
@@ -55,17 +50,29 @@ export const ConnectedGongZuoAction = () => {
         errorHandler(e, errMsgHandler);
       }
     },
-    [errMsgHandler, gongzuoClient, sessionToken]
+    [errMsgHandler, gongzuoClient, sessionToken, contentKind]
   );
 
   if (!user) {
     return <div>ログインしてください</div>;
   }
-  return (
-    <GongZuoAction
-      form={form}
-      onStartGongzuo={onStartGongzuo}
-      onEndGongzuo={onEndGongzuo}
-    />
-  );
+  switch (contentKind) {
+    case ContentKindExt.WORK:
+      return (
+        <GyomuGongZuoAction
+          form={form}
+          onStartGongzuo={onStartGongzuo}
+          onEndGongzuo={onEndGongzuo}
+        />
+      );
+    case ContentKindExt.NOT_WORK:
+    default:
+      return (
+        <NotGyomuGongZuoAction
+          form={form}
+          onStartGongzuo={onStartGongzuo}
+          onEndGongzuo={onEndGongzuo}
+        />
+      );
+  }
 };

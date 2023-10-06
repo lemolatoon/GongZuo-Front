@@ -5,6 +5,7 @@ import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 import { useLogout } from "@/hooks/useSession";
 import { Button } from "@/components/ui/button";
 import { ConnectedGongZuoAction } from "@/components/GongZuoAction/ConnectedGongZuoAction";
+import { ConnectedGyomuRadioButton } from "@/components/GyomuRadioButton/ConnectedGyomuRadioButton";
 
 const Inner = () => {
   const { user } = useLoggedInUser();
@@ -15,6 +16,7 @@ const Inner = () => {
         <div>Hi!</div>
         <div className="text-3xl font-bold underline">Here is user</div>
         <div>{JSON.stringify(user)}</div>
+        <ConnectedGyomuRadioButton kind="horizontal" />
         <ConnectedGongZuoAction />
         <Button variant="secondary" onClick={logout}>
           ログアウト
