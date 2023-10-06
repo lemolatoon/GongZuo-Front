@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "api:init": "openapi-generator-cli generate -g typescript-fetch -i https://raw.githubusercontent.com/lemolatoon/GongZuo-Infra/master/gongzuo.yaml  -o src/apiClient --additional-properties=supportsES6=true,useSingleRequestParameter=false",
+    "api:init:local": "openapi-generator-cli generate -g typescript-fetch -i tmp/gongzuo.yaml  -o src/apiClient --additional-properties=supportsES6=true,useSingleRequestParameter=false",
     "api:generate": "openapi-generator-cli generate"
   },
   "dependencies": {

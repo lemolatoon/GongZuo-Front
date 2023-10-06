@@ -4,7 +4,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 
-export type Input = Parameters<UsersApi["loginPost"]>[0];
+export type Input = Parameters<UsersApi["login"]>[0];
 type Props = {
   onSubmit: SubmitHandler<Input>;
   form: ReturnType<typeof useForm<Input>>;

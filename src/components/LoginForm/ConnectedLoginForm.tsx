@@ -15,7 +15,7 @@ export const ConnectedLoginForm = () => {
   const onSubmit: SubmitHandler<Input> = useCallback(
     async ({ username, password }) => {
       try {
-        let { sessionToken } = await userClient.loginPost({
+        let { sessionToken } = await userClient.login({
           username,
           password,
         });

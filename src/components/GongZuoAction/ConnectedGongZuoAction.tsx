@@ -35,7 +35,7 @@ export const ConnectedGongZuoAction = () => {
   const onStartGongzuo: SubmitHandler<Inputs> = useCallback(
     async ({ content, contentKind }) => {
       try {
-        await gongzuoClient.gongzuoStartPost(sessionToken, {
+        await gongzuoClient.start(sessionToken, {
           contentKind: ContentKindIntoNumber(contentKind),
           content,
         });

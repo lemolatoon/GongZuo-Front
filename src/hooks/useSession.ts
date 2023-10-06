@@ -45,7 +45,7 @@ export const useSession = (handler: Handler = defaultHandler) => {
     async (sessionToken: string) => {
       justSetSessionToken(sessionToken);
       try {
-        const user = await userClient.meGet(sessionToken);
+        const user = await userClient.me(sessionToken);
         setUser(sessionToken, user);
       } catch (e) {
         errorHandler(e, handler);
@@ -81,7 +81,7 @@ export const useLogoutOnAllDevices = (handler: Handler = defaultHandler) => {
 
   const logoutOnAllDevices = useCallback(async () => {
     try {
-      await userClient.logoutPost({ sessionToken });
+      await userClient.logout({ sessionToken });
       removeSessionToken();
     } catch (e) {
       errorHandler(e, handler);
