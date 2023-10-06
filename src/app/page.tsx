@@ -14,7 +14,7 @@ const Inner = () => {
     return (
       <>
         <div className={Hi}>Hi!</div>
-        <div>Here is user</div>
+        <div className="text-3xl font-bold underline">Here is user</div>
         <div>{JSON.stringify(user)}</div>
         <ConnectedGongZuoAction />
         <Button variant="secondary" onClick={logout}>
