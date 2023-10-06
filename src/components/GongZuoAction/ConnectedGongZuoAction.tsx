@@ -10,6 +10,7 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { errorHandler } from "@/lib/error";
 import { selectKind, useGyomu } from "@/state/gyomu";
+import { useEndGongzuo, useStartGongzuo } from "@/hooks/useStartEndGongzuo";
 
 export type Inputs = {
   content: string;
@@ -26,17 +27,12 @@ export const ConnectedGongZuoAction = () => {
   });
 
   const errMsgHandler = console.error;
+  const { startGongzuo } = useStartGongzuo(errMsgHandler);
+  const { endGongzuo } = useEndGongzuo(errMsgHandler);
 
   const onStartGongzuo: SubmitHandler<Inputs> = useCallback(
     async ({ content }) => {
-      try {
-        await gongzuoClient.start(sessionToken, {
-          contentKind: ContentKindIntoNumber(contentKind),
-          content,
-        });
-      } catch (e: unknown) {
-        errorHandler(e, errMsgHandler);
-      }
+      startGongzuo({ contentKind, content });
     },
     [errMsgHandler, gongzuoClient, sessionToken, contentKind]
   );
