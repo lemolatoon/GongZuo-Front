@@ -1,5 +1,5 @@
 import { UsersApi } from "@/apiClient";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 

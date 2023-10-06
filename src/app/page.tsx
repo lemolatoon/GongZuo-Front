@@ -1,10 +1,9 @@
 "use client";
-import { Hi } from "./root.css";
 import { ConnectedLoginForm } from "@/components/LoginForm";
 import { CookiesProvider } from "react-cookie";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 import { useLogout } from "@/hooks/useSession";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { ConnectedGongZuoAction } from "@/components/GongZuoAction/ConnectedGongZuoAction";
 
 const Inner = () => {
@@ -13,7 +12,7 @@ const Inner = () => {
   if (user) {
     return (
       <>
-        <div className={Hi}>Hi!</div>
+        <div>Hi!</div>
         <div className="text-3xl font-bold underline">Here is user</div>
         <div>{JSON.stringify(user)}</div>
         <ConnectedGongZuoAction />
