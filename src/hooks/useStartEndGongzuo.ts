@@ -36,17 +36,17 @@ export const useStartGongzuo = (handler: Handler) => {
 
 type EndPayload = {
   gongzuoId: number;
+  content?: string;
 };
 export const useEndGongzuo = (handler: Handler) => {
   const { gongzuoClient } = useGongzuoClient();
   const { sessionToken } = useSessionToken();
   const { invalidate } = useInvalidateAllGongzuos();
   const endGongzuo = useCallback(
-    async ({ gongzuoId }: EndPayload) => {
+    async ({ gongzuoId, content }: EndPayload) => {
+      const payload = content ? { gongzuoId, content } : { gongzuoId };
       try {
-        await gongzuoClient.end(sessionToken, {
-          gongzuoId,
-        });
+        await gongzuoClient.end(sessionToken, payload);
         invalidate();
       } catch (e) {
         errorHandler(e, handler);

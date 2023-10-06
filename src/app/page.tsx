@@ -24,6 +24,7 @@ const Inner = () => {
       <>
         <ConnectedGyomuRadioButton kind="vertical" />
         <ConnectedGongZuoAction />
+        <h1>{data?.length}</h1>
         <div>{JSON.stringify(data)}</div>
         <Button variant="secondary" onClick={logout}>
           ログアウト

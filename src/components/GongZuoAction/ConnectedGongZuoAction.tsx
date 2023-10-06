@@ -37,8 +37,9 @@ export const ConnectedGongZuoAction = () => {
   const onEndGongzuo: SubmitHandler<Inputs> = useCallback(
     async ({ content }) => {
       try {
-        console.log("onEndGongzuo(not implemented)");
-        // await gongzuoClient.gongzuoEndPost(sessionToken);
+        const maybeContent = content == "" ? undefined : content;
+        handleErrorMessage("endGongzuo: not implemented yet");
+        // endGongzuo({ gongzuoId, content });
       } catch (e: unknown) {
         errorHandler(e, handleErrorMessage);
       }

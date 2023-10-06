@@ -30,10 +30,11 @@ export const useQueryAllGonzuos = (handler: Handler) => {
 
 export const useInvalidateAllGongzuos = () => {
   const queryClient = useQueryClient();
+  const { sessionToken } = useSessionToken();
 
   const invalidate = useCallback(() => {
     console.log("invalidate");
-    queryClient.invalidateQueries([allGongzuosKey]);
+    queryClient.invalidateQueries([allGongzuosKey, sessionToken]);
   }, [queryClient]);
 
   return {
