@@ -1,6 +1,5 @@
 import React from "react";
 import { primary, secondary, tertiary } from "./style.css";
-import { MixinProps, constructStyle } from "@/styles/mixin";
 
 const Variant = {
   Primary: "primary",
@@ -13,8 +12,7 @@ type Variant = (typeof Variant)[keyof typeof Variant];
 type Props = {
   variant: Variant;
   children?: React.ReactNode;
-} & React.ButtonHTMLAttributes<HTMLButtonElement> &
-  MixinProps;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 export const Button: React.FC<Props> = ({ variant, children, ...props }) => {
   let className;
   switch (variant) {
@@ -31,5 +29,9 @@ export const Button: React.FC<Props> = ({ variant, children, ...props }) => {
       console.error("invalid variant", variant);
       className = tertiary;
   }
-  return <button className={className}>{children}</button>;
+  return (
+    <button className={className} {...props}>
+      {children}
+    </button>
+  );
 };
