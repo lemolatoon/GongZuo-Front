@@ -2,6 +2,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Inputs } from "./ConnectedGongZuoAction";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Props = {
   form: ReturnType<typeof useForm<Inputs>>;
@@ -18,12 +19,12 @@ export const GongZuoAction: React.FC<Props> = ({
     <div>
       <div>
         <label>
-          contentKind: <input {...register("contentKind")} />
+          contentKind: <Input {...register("contentKind")} />
         </label>
       </div>
       <div>
         <label>
-          content: <input {...register("content")} />
+          content: <Input {...register("content")} />
         </label>
       </div>
       <div>
