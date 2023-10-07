@@ -4,10 +4,10 @@ import { useGongzuoClient } from "@/state/client";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 import { ContentKindExt } from "@/lib/contentKind";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { errorHandler } from "@/lib/error";
 import { selectKind, useGyomu } from "@/state/gyomu";
 import { useEndGongzuo, useStartGongzuo } from "@/hooks/useStartEndGongzuo";
 import { useErrorMessageHandler } from "@/hooks/useErrorHandler";
+import { selectOngoing, useQueryAllGonzuos } from "@/hooks/useAllGongzuos";
 
 export type Inputs = {
   content: string;
@@ -15,8 +15,7 @@ export type Inputs = {
 
 export const ConnectedGongZuoAction = () => {
   const { handleErrorMessage } = useErrorMessageHandler();
-  const { gongzuoClient } = useGongzuoClient();
-  const { user, sessionToken } = useLoggedInUser(handleErrorMessage);
+  const { user } = useLoggedInUser(handleErrorMessage);
   const contentKind = useGyomu(selectKind);
   const form = useForm<Inputs>({
     defaultValues: {
@@ -24,27 +23,40 @@ export const ConnectedGongZuoAction = () => {
     },
   });
 
+  const { data } = useQueryAllGonzuos(
+    handleErrorMessage,
+    selectOngoing(user?.id)
+  );
+  const isOnGoing = data !== undefined;
+  const gongzuoId = data?.id;
+
   const { startGongzuo } = useStartGongzuo(handleErrorMessage);
   const { endGongzuo } = useEndGongzuo(handleErrorMessage);
 
   const onStartGongzuo: SubmitHandler<Inputs> = useCallback(
     async ({ content }) => {
+      if (!content) {
+        handleErrorMessage("startGongzuo: 作業内容 is empty");
+        return;
+      }
       startGongzuo({ contentKind, content });
     },
-    [contentKind, startGongzuo]
+    [contentKind, startGongzuo, handleErrorMessage]
   );
 
   const onEndGongzuo: SubmitHandler<Inputs> = useCallback(
     async ({ content }) => {
-      try {
-        const maybeContent = content == "" ? undefined : content;
-        handleErrorMessage("endGongzuo: not implemented yet");
-        // endGongzuo({ gongzuoId, content });
-      } catch (e: unknown) {
-        errorHandler(e, handleErrorMessage);
+      if (!gongzuoId) {
+        handleErrorMessage("endGongzuo: gongzuoId is fetching...");
+        return;
       }
+      let maybeContent = content == "" ? undefined : content;
+      if (contentKind == ContentKindExt.NOT_WORK) {
+        maybeContent = undefined;
+      }
+      endGongzuo({ gongzuoId, content: maybeContent });
     },
-    [handleErrorMessage, gongzuoClient, sessionToken, contentKind]
+    [handleErrorMessage, endGongzuo, contentKind, gongzuoId]
   );
 
   if (!user) {
@@ -54,6 +66,7 @@ export const ConnectedGongZuoAction = () => {
     case ContentKindExt.WORK:
       return (
         <GyomuGongZuoAction
+          isOnGoing={isOnGoing}
           form={form}
           onStartGongzuo={onStartGongzuo}
           onEndGongzuo={onEndGongzuo}
@@ -63,6 +76,7 @@ export const ConnectedGongZuoAction = () => {
     default:
       return (
         <NotGyomuGongZuoAction
+          isOnGoing={isOnGoing}
           form={form}
           onStartGongzuo={onStartGongzuo}
           onEndGongzuo={onEndGongzuo}

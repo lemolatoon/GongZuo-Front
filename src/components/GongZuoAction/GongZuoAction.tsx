@@ -6,28 +6,21 @@ import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Label } from "../ui/label";
 
 type Props = {
+  isOnGoing: boolean;
   form: ReturnType<typeof useForm<Inputs>>;
   onStartGongzuo: SubmitHandler<Inputs>;
   onEndGongzuo: SubmitHandler<Inputs>;
 };
 export const GyomuGongZuoAction: React.FC<Props> = ({
+  isOnGoing,
   form,
   onStartGongzuo,
   onEndGongzuo,
@@ -37,14 +30,23 @@ export const GyomuGongZuoAction: React.FC<Props> = ({
     <form className="w-full">
       <div className="w-full">
         <Label className="w-full">
-          作業内容 <Input className="w-full" {...register("content")} />
+          作業内容 <Input className="mt-1 w-full" {...register("content")} />
         </Label>
       </div>
       <div className="mt-8 flex justify-center">
-        <Button onClick={handleSubmit(onStartGongzuo)}>start</Button>
-        <Button variant="secondary" onClick={handleSubmit(onEndGongzuo)}>
-          end
-        </Button>
+        {isOnGoing ? (
+          <Button
+            type="submit"
+            variant="secondary"
+            onClick={form.handleSubmit(onEndGongzuo)}
+          >
+            作業終了
+          </Button>
+        ) : (
+          <Button type="submit" onClick={form.handleSubmit(onStartGongzuo)}>
+            作業開始
+          </Button>
+        )}
       </div>
     </form>
   );
@@ -52,6 +54,7 @@ export const GyomuGongZuoAction: React.FC<Props> = ({
 
 const values = ["本業", "アルバイト", "公的助成事業"] as const;
 export const NotGyomuGongZuoAction: React.FC<Props> = ({
+  isOnGoing,
   form,
   onStartGongzuo,
   onEndGongzuo,
@@ -59,7 +62,7 @@ export const NotGyomuGongZuoAction: React.FC<Props> = ({
   return (
     <>
       <Form {...form}>
-        <form className="w-2/3 space-y-6">
+        <form>
           <FormField
             control={form.control}
             name="content"
@@ -86,17 +89,20 @@ export const NotGyomuGongZuoAction: React.FC<Props> = ({
               </FormItem>
             )}
           />
-          <div>
-            <Button type="submit" onClick={form.handleSubmit(onStartGongzuo)}>
-              start
-            </Button>
-            <Button
-              type="submit"
-              variant="secondary"
-              onClick={form.handleSubmit(onEndGongzuo)}
-            >
-              end
-            </Button>
+          <div className="mt-8 flex justify-center">
+            {isOnGoing ? (
+              <Button
+                type="submit"
+                variant="secondary"
+                onClick={form.handleSubmit(onEndGongzuo)}
+              >
+                作業終了
+              </Button>
+            ) : (
+              <Button type="submit" onClick={form.handleSubmit(onStartGongzuo)}>
+                作業開始
+              </Button>
+            )}
           </div>
         </form>
       </Form>

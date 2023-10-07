@@ -58,9 +58,12 @@ export const useInvalidateAllGongzuos = () => {
 };
 
 const selectAll = (gongzuos: Gongzuo[]) => gongzuos;
-const selectOngoing = (userId: number) => {
+const selectOngoing = (userId: number | undefined) => {
   const now = new Date();
   return (gongzuos: Gongzuo[]) => {
+    if (userId === undefined) {
+      return undefined;
+    }
     const filtered = gongzuos.filter(
       (gongzuo) =>
         gongzuo.userId === userId &&
