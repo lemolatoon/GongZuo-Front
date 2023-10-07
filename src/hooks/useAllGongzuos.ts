@@ -6,6 +6,7 @@ import { errorHandler } from "@/lib/error";
 import { Gongzuo } from "@/apiClient";
 import { Status } from "@/components/StatusDisplay/StatusDisplay";
 import { ContentKindExt, ContentKindFromNumber } from "@/lib/contentKind";
+import { GongZuoDuration } from "@/components/GongZuoTimeline/GongZuoTimeline";
 
 type Handler = (msg: string) => void;
 type Selector<T> = (gongzuos: Gongzuo[]) => T;
@@ -95,4 +96,19 @@ const selectStatus = (userId: number) => (gongzuos: Gongzuo[]) => {
   return Status.LOADING;
 };
 
-export { selectAll, selectOngoing, selectStatus };
+const selectDuration =
+  (userId: number) =>
+  (gongzuos: Gongzuo[]): GongZuoDuration[] => {
+    return gongzuos
+      .filter((gongzuo) => gongzuo.userId === userId)
+      .map((gongzuo) => {
+        return {
+          gongzuoId: gongzuo.id,
+          startedAt: gongzuo.startedAt,
+          endedAt: gongzuo.endedAt,
+          kind: ContentKindFromNumber(gongzuo.contentKind),
+        };
+      });
+  };
+
+export { selectAll, selectOngoing, selectStatus, selectDuration };

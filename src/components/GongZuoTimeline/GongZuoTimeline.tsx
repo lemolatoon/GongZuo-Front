@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { ContentKindExt } from "@/lib/contentKind";
 
 export type GongZuoDuration = {
+  gongzuoId: number;
   kind: ContentKindExt;
   startedAt: Date;
   endedAt?: Date;
@@ -31,6 +32,9 @@ export const GongZuoTimeline: React.FC<Props> = ({
           const endSplitTime = base.add((i + 1) * 15, "minute").toDate();
           let isDone = false;
           let isOnGoing = false;
+          let thisDuration: GongZuoDuration | undefined = undefined as
+            | GongZuoDuration
+            | undefined;
           gongzuoDurations.forEach((duration) => {
             // startedAt <= time < next < endedAt
             const { startedAt, endedAt } = duration;
@@ -41,15 +45,21 @@ export const GongZuoTimeline: React.FC<Props> = ({
                 : endSplitTime <= endedAt)
             ) {
               isDone = true;
+              thisDuration = duration;
             } else if (endedAt === undefined) {
               isOnGoing = true;
+              thisDuration = duration;
             }
           });
 
           let className =
             "border-black border-t-2 border-b-2 border-dashed border-l-[0.1px] border-r-[0.1px] w-[0.5em]";
           if (isDone) {
-            className += " bg-green-300";
+            if (thisDuration?.kind === ContentKindExt.WORK) {
+              className += " bg-green-300";
+            } else {
+              className += " bg-blue-300";
+            }
           } else if (nowIndex === i && isOnGoing) {
             className += " bg-red-300";
           } else {

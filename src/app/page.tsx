@@ -13,44 +13,15 @@ import { useErrorMessageHandler } from "@/hooks/useErrorHandler";
 import { Toaster } from "@/components/ui/toaster";
 import { ConnectedStatusDisplay } from "@/components/StatusDisplay";
 import { GongZuoTimeline } from "@/components/GongZuoTimeline/GongZuoTimeline";
-import dayjs from "dayjs";
-import { ContentKindExt } from "@/lib/contentKind";
+import { ConnectedGongZuoTimeline } from "@/components/GongZuoTimeline/ConnectedGongZuoTimeline";
 
 const queryClient = new QueryClient();
-
-const du = (startedAt: string, endedAt?: string) => {
-  let startedAtDate = dayjs(startedAt);
-  startedAtDate = startedAtDate.add(-9, "hour");
-
-  let endedAtDate = undefined;
-  if (endedAt) {
-    endedAtDate = dayjs(endedAt);
-    endedAtDate = endedAtDate.add(-9, "hour");
-  }
-
-  return {
-    kind: ContentKindExt.WORK,
-    startedAt: startedAtDate.toDate(),
-    endedAt: endedAtDate?.toDate(),
-  };
-};
 
 const Inner = () => {
   const { handleErrorMessage } = useErrorMessageHandler();
   const { user } = useLoggedInUser(handleErrorMessage);
   const { logout } = useLogout();
   const { data } = useQueryAllGonzuos(handleErrorMessage, selectAll);
-  const props = {
-    name: "lemolatoon",
-    gongzuoDurations: [
-      ...[
-        du("2021-01-01T01:00:00Z", "2021-01-01T02:00:00Z"),
-        du("2021-01-01T02:05:00Z", "2021-01-01T05:00:00Z"),
-        du("2021-01-01T22:05:00Z"),
-      ],
-    ],
-    now: dayjs("2021-01-01T23:00:00Z").add(-9, "hour").toDate(),
-  };
   if (user) {
     return (
       <>
@@ -66,7 +37,7 @@ const Inner = () => {
               </div>
             </div>
           </div>
-          <GongZuoTimeline {...props} />
+          <ConnectedGongZuoTimeline name={user.username} userId={user.id} />
           <h1>{data?.length}</h1>
           <div>{JSON.stringify(data)}</div>
           <Button variant="secondary" onClick={logout}>

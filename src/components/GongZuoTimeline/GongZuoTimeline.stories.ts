@@ -26,6 +26,7 @@ const duration = (flag: boolean, startedAt: string, endedAt?: string) => {
 
   return {
     kind: flag ? ContentKindExt.WORK : ContentKindExt.NOT_WORK,
+    gongzuoId: 0,
     startedAt: startedAtDate.toDate(),
     endedAt: endedAtDate?.toDate(),
   };
@@ -43,7 +44,7 @@ export const NotFinished: Story = {
       ...[
         du("2021-01-01T01:00:00Z", "2021-01-01T02:00:00Z"),
         du("2021-01-01T02:05:00Z", "2021-01-01T05:00:00Z"),
-        dun("2021-01-01T21:05:00Z"),
+        du("2021-01-01T21:05:00Z"),
       ],
     ],
     now: dayjs("2021-01-01T22:00:00Z").add(-9, "hour").toDate(),
@@ -57,7 +58,7 @@ export const Finished: Story = {
       ...[
         du("2021-01-01T01:00:00Z", "2021-01-01T02:00:00Z"),
         du("2021-01-01T02:05:00Z", "2021-01-01T05:00:00Z"),
-        dun("2021-01-01T21:05:00Z", "2021-01-01T21:44:00Z"),
+        du("2021-01-01T21:05:00Z", "2021-01-01T21:44:00Z"),
       ],
     ],
     now: dayjs("2021-01-01T22:00:00Z").add(-9, "hour").toDate(),
