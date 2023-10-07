@@ -26,7 +26,7 @@ export const useStartGongzuo = (handler: Handler) => {
         errorHandler(e, handler);
       }
     },
-    [gongzuoClient, sessionToken, handler]
+    [gongzuoClient, sessionToken, handler, invalidate]
   );
 
   return {
@@ -52,7 +52,7 @@ export const useEndGongzuo = (handler: Handler) => {
         errorHandler(e, handler);
       }
     },
-    [gongzuoClient, sessionToken, handler]
+    [gongzuoClient, sessionToken, handler, invalidate]
   );
 
   return {
