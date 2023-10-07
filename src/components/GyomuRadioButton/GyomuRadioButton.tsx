@@ -6,8 +6,10 @@ type Props = {
   kind: "vertical" | "horizontal";
   contentKind: ContentKindExt;
   onChange(v: ContentKindExt): void;
+  className?: string;
 };
 export const GyomuRadioButton: React.FC<Props> = ({
+  className,
   kind,
   onChange,
   contentKind,
@@ -15,6 +17,7 @@ export const GyomuRadioButton: React.FC<Props> = ({
   return (
     <TwoRadioGroup
       kind={kind}
+      className={className}
       value={contentKind}
       onChange={onChange}
       optionOne={ContentKindExt.WORK as const}

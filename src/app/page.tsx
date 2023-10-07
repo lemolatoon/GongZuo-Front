@@ -22,13 +22,23 @@ const Inner = () => {
   if (user) {
     return (
       <>
-        <ConnectedGyomuRadioButton kind="vertical" />
-        <ConnectedGongZuoAction />
-        <h1>{data?.length}</h1>
-        <div>{JSON.stringify(data)}</div>
-        <Button variant="secondary" onClick={logout}>
-          ログアウト
-        </Button>
+        <div className="w-full">
+          <div className="flex justify-between mt-2 mb-8">
+            <ConnectedGyomuRadioButton kind="vertical" className="ml-2" />
+          </div>
+          <div>
+            <div className="flex justify-center">
+              <div className="w-1/2">
+                <ConnectedGongZuoAction />
+              </div>
+            </div>
+          </div>
+          <h1>{data?.length}</h1>
+          <div>{JSON.stringify(data)}</div>
+          <Button variant="secondary" onClick={logout}>
+            ログアウト
+          </Button>
+        </div>
       </>
     );
   } else {

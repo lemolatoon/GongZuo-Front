@@ -20,6 +20,7 @@ import {
   FormItem,
   FormLabel,
 } from "../ui/form";
+import { Label } from "../ui/label";
 
 type Props = {
   form: ReturnType<typeof useForm<Inputs>>;
@@ -33,13 +34,13 @@ export const GyomuGongZuoAction: React.FC<Props> = ({
 }) => {
   const { register, handleSubmit } = form;
   return (
-    <form>
-      <div>
-        <label>
-          content: <Input {...register("content")} />
-        </label>
+    <form className="w-full">
+      <div className="w-full">
+        <Label className="w-full">
+          作業内容 <Input className="w-full" {...register("content")} />
+        </Label>
       </div>
-      <div>
+      <div className="mt-8 flex justify-center">
         <Button onClick={handleSubmit(onStartGongzuo)}>start</Button>
         <Button variant="secondary" onClick={handleSubmit(onEndGongzuo)}>
           end

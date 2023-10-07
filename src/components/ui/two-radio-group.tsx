@@ -6,7 +6,7 @@ type Props<
   T extends string,
   TDisplay extends string,
   U extends string,
-  UDisplay extends string
+  UDisplay extends string,
 > = {
   kind: "vertical" | "horizontal";
   value: T | U;
@@ -15,12 +15,13 @@ type Props<
   optionTwo: U;
   optionTwoDisplay: UDisplay;
   onChange(v: T | U): void;
+  className?: string;
 };
 export const TwoRadioGroup = <
   T extends string,
   TDisplay extends string,
   U extends string,
-  UDisplay extends string
+  UDisplay extends string,
 >({
   kind,
   value,
@@ -29,10 +30,15 @@ export const TwoRadioGroup = <
   optionTwo,
   optionTwoDisplay,
   onChange,
+  className,
 }: Props<T, TDisplay, U, UDisplay>) => {
-  const className = kind == "vertical" ? "flex flex-col" : "flex flex-row";
+  const classNameBase = kind == "vertical" ? "flex flex-col" : "flex flex-row";
   return (
-    <RadioGroup value={value} className={className} onValueChange={onChange}>
+    <RadioGroup
+      value={value}
+      className={`${classNameBase} ${className}`}
+      onValueChange={onChange}
+    >
       <div className="flex items-center space-x-2">
         <RadioGroupItem value={optionOne} />
         <Label htmlFor={optionOne}>{optionOneDisplay}</Label>
