@@ -36,7 +36,7 @@ const du = (startedAt: string, endedAt?: string) =>
 const dun = (startedAt: string, endedAt?: string) =>
   duration(false, startedAt, endedAt);
 
-export const notFinished: Story = {
+export const NotFinished: Story = {
   args: {
     name: "lemolatoon",
     gongzuoDurations: [
@@ -50,7 +50,7 @@ export const notFinished: Story = {
   },
 };
 
-export const finished: Story = {
+export const Finished: Story = {
   args: {
     name: "lemolatoon",
     gongzuoDurations: [
@@ -64,7 +64,7 @@ export const finished: Story = {
   },
 };
 
-export const finishedOutOfGyomu: Story = {
+export const FinishedOutOfGyomu: Story = {
   args: {
     name: "lemolatoon",
     gongzuoDurations: [
