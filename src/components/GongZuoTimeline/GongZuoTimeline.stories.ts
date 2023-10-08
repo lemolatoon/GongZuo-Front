@@ -47,7 +47,7 @@ export const NotFinished: Story = {
         du("2021-01-01T21:05:00Z"),
       ],
     ],
-    now: dayjs("2021-01-01T22:00:00Z").add(-9, "hour").toDate(),
+    now: dayjs("2021-01-01T22:11:00Z").add(-9, "hour").toDate(),
   },
 };
 
@@ -61,7 +61,7 @@ export const Finished: Story = {
         du("2021-01-01T21:05:00Z", "2021-01-01T21:44:00Z"),
       ],
     ],
-    now: dayjs("2021-01-01T22:00:00Z").add(-9, "hour").toDate(),
+    now: dayjs("2021-01-01T22:11:00Z").add(-9, "hour").toDate(),
   },
 };
 
@@ -75,6 +75,6 @@ export const FinishedOutOfGyomu: Story = {
         dun("2021-01-01T21:05:00Z", "2021-01-01T21:44:00Z"),
       ],
     ],
-    now: dayjs("2021-01-01T22:00:00Z").add(-9, "hour").toDate(),
+    now: dayjs("2021-01-01T22:11:00Z").add(-9, "hour").toDate(),
   },
 };

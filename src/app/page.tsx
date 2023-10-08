@@ -37,7 +37,11 @@ const Inner = () => {
               </div>
             </div>
           </div>
-          <ConnectedGongZuoTimeline name={user.username} userId={user.id} />
+          <ConnectedGongZuoTimeline
+            isTop={true}
+            name={user.username}
+            userId={user.id}
+          />
           <h1>{data?.length}</h1>
           <div>{JSON.stringify(data)}</div>
           <Button variant="secondary" onClick={logout}>

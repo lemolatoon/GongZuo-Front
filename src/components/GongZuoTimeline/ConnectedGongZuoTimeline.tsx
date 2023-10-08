@@ -7,9 +7,11 @@ import { useAsyncNow } from "@/hooks/useAsyncNow";
 type Props = {
   name: string;
   userId: number;
+  isTop: boolean;
   className?: string;
 };
 export const ConnectedGongZuoTimeline: React.FC<Props> = ({
+  isTop,
   name,
   userId,
   className,
@@ -26,6 +28,7 @@ export const ConnectedGongZuoTimeline: React.FC<Props> = ({
   return (
     <GongZuoTimeline
       className={className}
+      isTop={isTop}
       name={name}
       gongzuoDurations={data}
       now={now}
