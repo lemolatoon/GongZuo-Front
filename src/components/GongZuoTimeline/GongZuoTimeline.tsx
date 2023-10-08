@@ -122,10 +122,10 @@ export const GongZuoTimeline: React.FC<Props> = ({
   return (
     <div className={`w-full flex justify-start ${className}`}>
       <div className="text-lg">{name}: </div>
-      <div className="grid grid-cols-96">
+      <div className="grid grid-cols-97">
         {fifteenMinutesInfos.map((info, i) => {
           let className =
-            "border-black border-t-2 border-b-2 border-dashed border-l-[0.1px] border-r-[0.1px] w-[0.5em]";
+            "border-black border-t-2 border-b-2 border-l-[0.1px] border-timeline w-[0.75em] h-full";
           if (info.state === "done") {
             if (info.kind === ContentKindExt.WORK) {
               className += " bg-green-300";
@@ -137,24 +137,38 @@ export const GongZuoTimeline: React.FC<Props> = ({
           } else {
             className += " bg-gray-300";
           }
-          return <div key={i} className={className} />;
+
+          const TimeDisplayer = ({ i }: { i: number }) => {
+            const time =
+              i == 96 ? "24:00" : base.add(i * 15, "minute").format("HH:mm");
+            return (
+              <>
+                <div className="absolute h-full">
+                  <div className="h-[120%] border-dashed border-l-[0.1px] border-black w-[0.75em]" />
+                  <div
+                    className="text-center -translate-x-1/2"
+                    style={{ fontSize: "1px" }}
+                  >
+                    {time}
+                  </div>
+                </div>
+              </>
+            );
+          };
+          return (
+            <>
+              <div className="relative h-full box-content">
+                {i % 8 == 0 && <TimeDisplayer i={i} />}
+                <div key={i} className={className} />
+              </div>
+              {i === 95 && (
+                <div className="relative h-full box-content">
+                  {<TimeDisplayer i={i + 1} />}
+                </div>
+              )}
+            </>
+          );
         })}
-        {/* {Array.from({ length: 96 }).map((_, i) => {
-          let className =
-            "border-black border-t-2 border-b-2 border-dashed border-l-[0.1px] border-r-[0.1px] w-[0.5em]";
-          if (isDone) {
-            if (thisDuration?.kind === ContentKindExt.WORK) {
-              className += " bg-green-300";
-            } else {
-              className += " bg-blue-300";
-            }
-          } else if (nowIndex === i && isOnGoing) {
-            className += " bg-red-300";
-          } else {
-            className += " bg-gray-300";
-          }
-          return <div key={i} className={className} />;
-        })} */}
       </div>
     </div>
   );

@@ -18,6 +18,10 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         '96': 'repeat(96, minmax(0, 1fr))',
+        '97': 'repeat(97, minmax(0, 1fr))',
+      },
+      border: {
+        'timeline': 'solid solid',
       },
       colors: {
         border: "hsl(var(--border))",
