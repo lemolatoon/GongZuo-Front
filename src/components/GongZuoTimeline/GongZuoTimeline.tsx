@@ -120,7 +120,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
   console.log(fifteenMinutesInfos);
 
   return (
-    <div className={`w-full flex justify-start ${className}`}>
+    <div className={`w-full grid grid-cols-[100px_1fr] ${className}`}>
       <div className="text-lg">{name}: </div>
       <div className="ml-4 grid grid-cols-97">
         {fifteenMinutesInfos.map((info, i) => {

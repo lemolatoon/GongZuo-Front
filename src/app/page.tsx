@@ -14,6 +14,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ConnectedStatusDisplay } from "@/components/StatusDisplay";
 import { GongZuoTimeline } from "@/components/GongZuoTimeline/GongZuoTimeline";
 import { ConnectedGongZuoTimeline } from "@/components/GongZuoTimeline/ConnectedGongZuoTimeline";
+import { useQueryAllUsers } from "@/hooks/useAllUsers";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,10 @@ const Inner = () => {
   const { user } = useLoggedInUser(handleErrorMessage);
   const { logout } = useLogout();
   const { data } = useQueryAllGonzuos(handleErrorMessage, selectAll);
+  const { data: users } = useQueryAllUsers(handleErrorMessage);
+  if (!users) {
+    return <div>loading...</div>;
+  }
   if (user) {
     return (
       <>
@@ -39,17 +44,17 @@ const Inner = () => {
           </div>
           <div className="w-full border-dashed p-1 border-t-2 border-stone-800 mt-8">
             <div className="mt-4 flex justify-center">
-              <div>
-                <ConnectedGongZuoTimeline
-                  isBottom={false}
-                  name={user.username}
-                  userId={user.id}
-                />
-                <ConnectedGongZuoTimeline
-                  isBottom={true}
-                  name={user.username}
-                  userId={user.id}
-                />
+              <div className="grid">
+                {users.map((user, i) => {
+                  return (
+                    <ConnectedGongZuoTimeline
+                      key={i}
+                      isBottom={i === users.length - 1}
+                      name={user.username}
+                      userId={user.id}
+                    />
+                  );
+                })}
               </div>
             </div>
           </div>
