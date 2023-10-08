@@ -11,7 +11,7 @@ export type GongZuoDuration = {
 
 type Props = {
   name: string;
-  isTop: boolean;
+  isBottom: boolean;
   gongzuoDurations: GongZuoDuration[];
   now: Date;
   className?: string;
@@ -27,7 +27,7 @@ type FifteenMinutesInfo =
     };
 export const GongZuoTimeline: React.FC<Props> = ({
   name,
-  isTop,
+  isBottom,
   gongzuoDurations,
   now,
   className,
@@ -122,7 +122,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
   return (
     <div className={`w-full flex justify-start ${className}`}>
       <div className="text-lg">{name}: </div>
-      <div className="grid grid-cols-97">
+      <div className="ml-4 grid grid-cols-97">
         {fifteenMinutesInfos.map((info, i) => {
           let className =
             "border-black border-t-2 border-b-2 border-l-[0.1px] border-timeline w-[0.75em] h-full";
@@ -139,6 +139,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
           }
 
           const TimeDisplayer = ({ i }: { i: number }) => {
+            if (!isBottom) return <></>;
             const time =
               i == 96 ? "24:00" : base.add(i * 15, "minute").format("HH:mm");
             return (

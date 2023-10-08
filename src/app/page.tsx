@@ -37,11 +37,22 @@ const Inner = () => {
               </div>
             </div>
           </div>
-          <ConnectedGongZuoTimeline
-            isTop={true}
-            name={user.username}
-            userId={user.id}
-          />
+          <div className="w-full border-dashed p-1 border-t-2 border-stone-800 mt-8">
+            <div className="mt-4 flex justify-center">
+              <div>
+                <ConnectedGongZuoTimeline
+                  isBottom={false}
+                  name={user.username}
+                  userId={user.id}
+                />
+                <ConnectedGongZuoTimeline
+                  isBottom={true}
+                  name={user.username}
+                  userId={user.id}
+                />
+              </div>
+            </div>
+          </div>
           <h1>{data?.length}</h1>
           <div>{JSON.stringify(data)}</div>
           <Button variant="secondary" onClick={logout}>
