@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { GyomuGongZuoAction, NotGyomuGongZuoAction } from "./GongZuoAction";
 import { useGongzuoClient } from "@/state/client";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
@@ -16,12 +16,24 @@ export type Inputs = {
 export const ConnectedGongZuoAction = () => {
   const { handleErrorMessage } = useErrorMessageHandler();
   const { user } = useLoggedInUser(handleErrorMessage);
+  const { data: ongoing } = useQueryAllGonzuos(
+    handleErrorMessage,
+    selectOngoing(user?.id)
+  );
   const contentKind = useGyomu(selectKind);
   const form = useForm<Inputs>({
     defaultValues: {
-      content: "",
+      content: ongoing?.content ?? "",
     },
   });
+
+  const setValue = form.setValue;
+  const content = ongoing?.content;
+  useEffect(() => {
+    if (content) {
+      setValue("content", content);
+    }
+  }, [content, setValue]);
 
   const { data } = useQueryAllGonzuos(
     handleErrorMessage,
