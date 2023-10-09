@@ -63,16 +63,19 @@ const Inner: React.FC<InnerProps> = ({
   className,
   gongzuoId,
 }) => {
+  const defaultContentKind = ContentKindFromNumber(data.contentKind);
   const form = useForm<Inputs>({
     defaultValues: {
       startedAt: dayjs(data.startedAt).format("YYYY-MM-DDTHH:mm:ss"),
       endedAt: data.endedAt
         ? dayjs(data.endedAt).format("YYYY-MM-DDTHH:mm:ss")
         : undefined,
-      contentKind: ContentKindFromNumber(data.contentKind),
+      contentKind: defaultContentKind,
       content: data.content,
     },
   });
+  const [contentKind, setContentKind] =
+    React.useState<ContentKindExt>(defaultContentKind);
 
   const { handleErrorMessage } = useErrorMessageHandler();
   const { editGongzuo } = useEditGongzuo(handleErrorMessage);
@@ -98,6 +101,8 @@ const Inner: React.FC<InnerProps> = ({
 
   return (
     <GongZuoEditModal
+      contentKind={contentKind}
+      setContentKind={setContentKind}
       isOpen={gongzuoId != null}
       close={close}
       form={form}
