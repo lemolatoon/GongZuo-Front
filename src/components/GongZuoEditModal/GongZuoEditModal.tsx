@@ -63,7 +63,10 @@ export const GongZuoEditModal: React.FC<Props> = ({
       <Form {...form}>
         <form
           className="bg-white w-[500px] p-8 border-solid border-2 rounded-xl shadow-md"
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={(e) => {
+            form.handleSubmit(onSubmit)(e);
+            close();
+          }}
         >
           <FormField
             control={form.control}
