@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Inputs } from "./ConnectedGongZuoEditModal";
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import {
@@ -21,23 +21,44 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ContentKindExt } from "@/lib/contentKind";
 import { Button } from "@/components/ui/button";
+import { Modal } from "react-overlays";
+
+const renderBackdrop = (props: HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div
+      {...props}
+      className="fixed z-[1040] top-0 bottom-0 left-0 right-0 bg-[#000] opacity-50"
+    ></div>
+  );
+};
 
 type Props = {
   form: ReturnType<typeof useForm<Inputs>>;
   onSubmit(data: Inputs): void;
   className?: string;
+  isOpen: boolean;
+  close(): void;
 };
 const values = ["本業", "アルバイト", "公的助成事業"] as const;
 export const GongZuoEditModal: React.FC<Props> = ({
   form,
   onSubmit,
   className,
+  isOpen,
+  close,
 }) => {
   return (
-    <div className={`w-full flex justify-center ${className}`}>
+    <Modal
+      className={`absolute z-[1040] top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 ${
+        isOpen ? "" : "hidden"
+      } ${className}`}
+      show={isOpen}
+      onHide={close}
+      renderBackdrop={renderBackdrop}
+    >
       <Form {...form}>
         <form
-          className="w-4/5 p-8 border-solid border-2 rounded-xl shadow-md"
+          className="bg-white w-[500px] p-8 border-solid border-2 rounded-xl shadow-md"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
@@ -136,6 +157,6 @@ export const GongZuoEditModal: React.FC<Props> = ({
           </div>
         </form>
       </Form>
-    </div>
+    </Modal>
   );
 };

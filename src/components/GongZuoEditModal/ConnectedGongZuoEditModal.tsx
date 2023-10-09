@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { useEditGongzuo } from "@/hooks/useEditGongzuo";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 import { useInvalidateAllGongzuos } from "@/hooks/useAllGongzuos";
+import { useGongZuoEditModal } from "@/state/modal";
 
 export type Inputs = {
   // `YYYY-MM-DDTHH:mm:ss`
@@ -22,14 +23,11 @@ export type Inputs = {
   content: string;
 };
 type Props = {
-  gongzuoId: number;
   className?: string;
 };
-export const ConnectedGongZuoEditModal: React.FC<Props> = ({
-  gongzuoId,
-  className,
-}) => {
+export const ConnectedGongZuoEditModal: React.FC<Props> = ({ className }) => {
   const { handleErrorMessage } = useErrorMessageHandler();
+  const gongzuoId = useGongZuoEditModal((state) => state.gongzuoId);
   const { data } = useQueryGongzuoById(handleErrorMessage, gongzuoId);
   const { user } = useLoggedInUser(handleErrorMessage);
   if (!data || !user) {
@@ -52,15 +50,15 @@ const Loading = () => {
 
 type InnerProps = {
   data: NonNullable<ReturnType<typeof useQueryGongzuoById>["data"]>;
-  gongzuoId: number;
+  gongzuoId: number | null;
   userId: number;
   className?: string;
 };
 const Inner: React.FC<InnerProps> = ({
   data,
-  gongzuoId,
   userId,
   className,
+  gongzuoId,
 }) => {
   const form = useForm<Inputs>({
     defaultValues: {
@@ -74,7 +72,7 @@ const Inner: React.FC<InnerProps> = ({
   });
 
   const { handleErrorMessage } = useErrorMessageHandler();
-  const { editGongzuo } = useEditGongzuo(handleErrorMessage, gongzuoId);
+  const { editGongzuo } = useEditGongzuo(handleErrorMessage);
   const onSubmit = useCallback(
     (data: Inputs) => {
       const { startedAt, endedAt, contentKind, content } = data;
@@ -86,11 +84,22 @@ const Inner: React.FC<InnerProps> = ({
         contentKind: ContentKindIntoNumber(contentKind),
         content,
       };
-      editGongzuo(payload);
+      if (editGongzuo && gongzuoId) {
+        editGongzuo({ ...payload, gongzuoId });
+      }
     },
     [editGongzuo, gongzuoId, userId]
   );
+
+  const { close } = useGongZuoEditModal((state) => ({ close: state.close }));
+
   return (
-    <GongZuoEditModal form={form} onSubmit={onSubmit} className={className} />
+    <GongZuoEditModal
+      isOpen={gongzuoId != null}
+      close={close}
+      form={form}
+      onSubmit={onSubmit}
+      className={className}
+    />
   );
 };

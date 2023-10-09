@@ -6,10 +6,14 @@ import { useCallback } from "react";
 
 type Handler = (msg: string) => void;
 const gongzuoByIdKey = "/gongzuos/:gongzuoId";
-export const useQueryGongzuoById = (handler: Handler, gongzuoId: number) => {
+export const useQueryGongzuoById = (
+  handler: Handler,
+  gongzuoId: number | null
+) => {
   const { gongzuoClient } = useGongzuoClient();
   const { sessionToken } = useSessionToken();
   const fetcher = useCallback(async () => {
+    if (!gongzuoId) return null;
     try {
       const gongzuo = await gongzuoClient.getGongzuoById(
         gongzuoId,

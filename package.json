@@ -30,6 +30,7 @@
     "react-cookie": "^6.1.1",
     "react-dom": "^18",
     "react-hook-form": "^7.47.0",
+    "react-overlays": "^5.2.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4",

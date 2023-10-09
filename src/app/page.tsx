@@ -59,7 +59,7 @@ const Inner = () => {
               </div>
             </div>
           </div>
-          <ConnectedGongZuoEditModal className="mt-8" gongzuoId={6} />
+          <ConnectedGongZuoEditModal />
           <h1>{data?.length}</h1>
           <div>{JSON.stringify(data)}</div>
           <Button variant="secondary" onClick={logout}>

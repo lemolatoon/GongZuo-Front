@@ -6,7 +6,7 @@ import { useGongzuoClient } from "@/state/client";
 import { useCallback } from "react";
 
 type Handler = (msg: string) => void;
-export const useEditGongzuo = (handler: Handler, gongzuoId: number) => {
+export const useEditGongzuo = (handler: Handler) => {
   const { gongzuoClient } = useGongzuoClient();
   const { sessionToken } = useSessionToken();
   const { invalidate } = useInvalidateAllGongzuos();
