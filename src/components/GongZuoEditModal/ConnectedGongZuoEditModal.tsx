@@ -13,6 +13,7 @@ import { useEditGongzuo } from "@/hooks/useEditGongzuo";
 import { useLoggedInUser } from "@/hooks/useLoggedInUser";
 import { useInvalidateAllGongzuos } from "@/hooks/useAllGongzuos";
 import { useGongZuoEditModal } from "@/state/modal";
+import { useDeleteGongzuo } from "@/hooks/useDeleteGongzuo";
 
 export type Inputs = {
   // `YYYY-MM-DDTHH:mm:ss`
@@ -79,7 +80,8 @@ const Inner: React.FC<InnerProps> = ({
 
   const { handleErrorMessage } = useErrorMessageHandler();
   const { editGongzuo } = useEditGongzuo(handleErrorMessage);
-  const onSubmit = useCallback(
+  const { deleteGongzuo } = useDeleteGongzuo(handleErrorMessage);
+  const onEdit = useCallback(
     (data: Inputs) => {
       const { startedAt, endedAt, contentKind, content } = data;
       const payload = {
@@ -97,6 +99,12 @@ const Inner: React.FC<InnerProps> = ({
     [editGongzuo, gongzuoId, userId]
   );
 
+  const onDelete = useCallback(() => {
+    if (deleteGongzuo && gongzuoId) {
+      deleteGongzuo({ gongzuoId });
+    }
+  }, [deleteGongzuo, gongzuoId]);
+
   const { close } = useGongZuoEditModal((state) => ({ close: state.close }));
 
   return (
@@ -106,7 +114,8 @@ const Inner: React.FC<InnerProps> = ({
       isOpen={gongzuoId != null}
       close={close}
       form={form}
-      onSubmit={onSubmit}
+      onEdit={onEdit}
+      onDelete={onDelete}
       className={className}
     />
   );

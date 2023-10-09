@@ -34,7 +34,8 @@ const renderBackdrop = (props: HTMLAttributes<HTMLDivElement>) => {
 
 type Props = {
   form: ReturnType<typeof useForm<Inputs>>;
-  onSubmit(data: Inputs): void;
+  onEdit(data: Inputs): void;
+  onDelete(data: Inputs): void;
   className?: string;
   isOpen: boolean;
   contentKind: ContentKindExt;
@@ -44,7 +45,8 @@ type Props = {
 const values = ["本業", "アルバイト", "公的助成事業"] as const;
 export const GongZuoEditModal: React.FC<Props> = ({
   form,
-  onSubmit,
+  onEdit,
+  onDelete,
   className,
   isOpen,
   close,
@@ -61,13 +63,7 @@ export const GongZuoEditModal: React.FC<Props> = ({
       renderBackdrop={renderBackdrop}
     >
       <Form {...form}>
-        <form
-          className="bg-white w-[500px] p-8 border-solid border-2 rounded-xl shadow-md"
-          onSubmit={(e) => {
-            form.handleSubmit(onSubmit)(e);
-            close();
-          }}
-        >
+        <form className="bg-white w-[500px] p-8 border-solid border-2 rounded-xl shadow-md">
           <FormField
             control={form.control}
             name="startedAt"
@@ -167,8 +163,26 @@ export const GongZuoEditModal: React.FC<Props> = ({
             }
           />
           <div className="mt-8 flex justify-center gap-[50%]">
-            <Button className="bg-blue-500">修正</Button>
-            <Button className="bg-red-500">削除</Button>
+            <Button
+              type="submit"
+              className="bg-blue-500"
+              onClick={(e) => {
+                form.handleSubmit(onEdit)(e);
+                close();
+              }}
+            >
+              修正
+            </Button>
+            <Button
+              type="submit"
+              className="bg-red-500"
+              onClick={(e) => {
+                form.handleSubmit(onDelete)(e);
+                close();
+              }}
+            >
+              削除
+            </Button>
           </div>
         </form>
       </Form>
