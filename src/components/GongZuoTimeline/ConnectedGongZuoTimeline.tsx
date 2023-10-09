@@ -2,8 +2,9 @@ import React from "react";
 import { GongZuoTimeline } from "./GongZuoTimeline";
 import { selectDuration, useQueryAllGonzuos } from "@/hooks/useAllGongzuos";
 import { useErrorMessageHandler } from "@/hooks/useErrorHandler";
-import { useAsyncNow } from "@/hooks/useAsyncNow";
 import { useGongZuoEditModal } from "@/state/modal";
+import { selectNow, useTimelineNow } from "@/state/timelineNow";
+import { useAsyncNow } from "@/hooks/useAsyncNow";
 
 type Props = {
   name: string;
@@ -22,7 +23,8 @@ export const ConnectedGongZuoTimeline: React.FC<Props> = ({
     handleErrorMessage,
     selectDuration(userId)
   );
-  const { now, invalidate } = useAsyncNow();
+  const now = useTimelineNow(selectNow);
+  const { now: actualNow } = useAsyncNow();
   const openEditModal = useGongZuoEditModal((state) => state.open);
   if (!data) {
     return <div>loading...</div>;
@@ -35,6 +37,7 @@ export const ConnectedGongZuoTimeline: React.FC<Props> = ({
       name={name}
       gongzuoDurations={data}
       now={now}
+      actualNow={actualNow}
       openEditModal={openEditModal}
     />
   );

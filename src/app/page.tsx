@@ -16,6 +16,7 @@ import { GongZuoTimeline } from "@/components/GongZuoTimeline/GongZuoTimeline";
 import { ConnectedGongZuoTimeline } from "@/components/GongZuoTimeline/ConnectedGongZuoTimeline";
 import { useQueryAllUsers } from "@/hooks/useAllUsers";
 import { ConnectedGongZuoEditModal } from "@/components/GongZuoEditModal";
+import { ConnectedTimelineDateAction } from "@/components/TimelineDateAction";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,9 @@ const Inner = () => {
                 })}
               </div>
             </div>
+          </div>
+          <div className="w-full flex justify-center">
+            <ConnectedTimelineDateAction className="mt-8 w-[400px]" />
           </div>
           <ConnectedGongZuoEditModal />
           <h1>{data?.length}</h1>

@@ -14,6 +14,7 @@ type Props = {
   isBottom: boolean;
   gongzuoDurations: GongZuoDuration[];
   now: Date;
+  actualNow: Date;
   openEditModal(gongzuoId: number): void;
   className?: string;
 };
@@ -31,6 +32,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
   isBottom,
   gongzuoDurations,
   now,
+  actualNow,
   className,
   openEditModal,
 }) => {
@@ -42,7 +44,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
     const endSplitTime = base.add((i + 1) * 15, "minute").toDate();
     let state: FifteenMinutesInfo["state"] = "nothing";
 
-    if (now < startSplitTime) {
+    if (actualNow < startSplitTime) {
       state = "not-yet";
       return { state, kind: undefined };
     }
@@ -81,7 +83,9 @@ export const GongZuoTimeline: React.FC<Props> = ({
       // 現在時刻が、今考えている区間の中にあり、作業が終わっていない
       // startSplitTime < now < endSplitTime && endedAt === undefined
       const isOnGoing =
-        startSplitTime <= now && now <= endSplitTime && endedAt === undefined;
+        startSplitTime <= actualNow &&
+        actualNow <= endSplitTime &&
+        endedAt === undefined;
       const isDone =
         fullyFilled || fillingStartAndEnd || fillingStarted || fillingEnded;
       if (isOnGoing) {
