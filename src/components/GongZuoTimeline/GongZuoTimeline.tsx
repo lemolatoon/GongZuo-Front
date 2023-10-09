@@ -33,7 +33,6 @@ export const GongZuoTimeline: React.FC<Props> = ({
   className,
 }) => {
   const base = dayjs(now).startOf("day");
-  console.log(gongzuoDurations);
   const fifteenMinutesInfos: FifteenMinutesInfo[] = Array.from({
     length: 96,
   }).map((_, i) => {
@@ -81,18 +80,6 @@ export const GongZuoTimeline: React.FC<Props> = ({
       // startSplitTime < now < endSplitTime && endedAt === undefined
       const isOnGoing =
         startSplitTime <= now && now <= endSplitTime && endedAt === undefined;
-      console.log(
-        startSplitTime <= now,
-        now <= endSplitTime,
-        endedAt === undefined
-      );
-      console.log({
-        fullyFilled,
-        fillingStartAndEnd,
-        fillingStarted,
-        fillingEnded,
-        isOnGoing,
-      });
       const isDone =
         fullyFilled || fillingStartAndEnd || fillingStarted || fillingEnded;
       if (isOnGoing) {
@@ -113,11 +100,9 @@ export const GongZuoTimeline: React.FC<Props> = ({
     if (info.length === 0) {
       return { state: "nothing", kind: undefined };
     } else {
-      console.log(info);
       return info[0];
     }
   });
-  console.log(fifteenMinutesInfos);
 
   return (
     <div className={`w-full grid grid-cols-[100px_1fr] ${className}`}>

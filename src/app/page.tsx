@@ -15,6 +15,7 @@ import { ConnectedStatusDisplay } from "@/components/StatusDisplay";
 import { GongZuoTimeline } from "@/components/GongZuoTimeline/GongZuoTimeline";
 import { ConnectedGongZuoTimeline } from "@/components/GongZuoTimeline/ConnectedGongZuoTimeline";
 import { useQueryAllUsers } from "@/hooks/useAllUsers";
+import { ConnectedGongZuoEditModal } from "@/components/GongZuoEditModal";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,7 @@ const Inner = () => {
               </div>
             </div>
           </div>
+          <ConnectedGongZuoEditModal className="mt-8" gongzuoId={6} />
           <h1>{data?.length}</h1>
           <div>{JSON.stringify(data)}</div>
           <Button variant="secondary" onClick={logout}>
