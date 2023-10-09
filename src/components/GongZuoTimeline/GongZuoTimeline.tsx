@@ -14,16 +14,17 @@ type Props = {
   isBottom: boolean;
   gongzuoDurations: GongZuoDuration[];
   now: Date;
+  openEditModal(gongzuoId: number): void;
   className?: string;
 };
 type FifteenMinutesInfo =
   | {
       state: "done" | "ongoing";
-      kind: ContentKindExt;
+      gongzuoDuration: GongZuoDuration;
     }
   | {
       state: "not-yet" | "nothing";
-      kind: undefined;
+      gongzuoDuration: undefined;
     };
 export const GongZuoTimeline: React.FC<Props> = ({
   name,
@@ -31,6 +32,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
   gongzuoDurations,
   now,
   className,
+  openEditModal,
 }) => {
   const base = dayjs(now).startOf("day");
   const fifteenMinutesInfos: FifteenMinutesInfo[] = Array.from({
@@ -85,12 +87,12 @@ export const GongZuoTimeline: React.FC<Props> = ({
       if (isOnGoing) {
         return {
           state: "ongoing",
-          kind: duration.kind,
+          gongzuoDuration: duration,
         } as const;
       } else if (isDone) {
         return {
           state: "done",
-          kind: duration.kind,
+          gongzuoDuration: duration,
         } as const;
       }
 
@@ -98,7 +100,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
     });
 
     if (info.length === 0) {
-      return { state: "nothing", kind: undefined };
+      return { state: "nothing", gongzuoDuration: undefined };
     } else {
       return info[0];
     }
@@ -112,7 +114,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
           let className =
             "border-black border-t-2 border-b-2 border-l-[0.1px] border-timeline w-[0.75em] h-full";
           if (info.state === "done") {
-            if (info.kind === ContentKindExt.WORK) {
+            if (info.gongzuoDuration.kind === ContentKindExt.WORK) {
               className += " bg-green-300";
             } else {
               className += " bg-blue-300";
@@ -129,7 +131,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
               i == 96 ? "24:00" : base.add(i * 15, "minute").format("HH:mm");
             return (
               <>
-                <div className="absolute h-full">
+                <div className={`absolute h-full`}>
                   <div className="h-[120%] border-dashed border-l-[0.1px] border-black w-[0.75em]" />
                   <div
                     className="text-center -translate-x-1/2"
@@ -141,14 +143,24 @@ export const GongZuoTimeline: React.FC<Props> = ({
               </>
             );
           };
+          const clickable = info.state === "done" || info.state === "ongoing";
+          const gongzuoId = info.gongzuoDuration?.gongzuoId;
+          const onClick = gongzuoId
+            ? () => openEditModal(gongzuoId)
+            : undefined;
           return (
             <>
-              <div className="relative h-full box-content">
+              <div key={i} className="relative h-full box-content">
                 {i % 8 == 0 && <TimeDisplayer i={i} />}
-                <div key={i} className={className} />
+                <button
+                  onClick={onClick}
+                  className={`${className} ${
+                    clickable ? "cursor-pointer" : "cursor-default"
+                  }`}
+                />
               </div>
               {i === 95 && (
-                <div className="relative h-full box-content">
+                <div key={i + 1} className="relative h-full box-content">
                   {<TimeDisplayer i={i + 1} />}
                 </div>
               )}

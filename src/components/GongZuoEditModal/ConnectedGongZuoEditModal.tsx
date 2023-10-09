@@ -30,6 +30,9 @@ export const ConnectedGongZuoEditModal: React.FC<Props> = ({ className }) => {
   const gongzuoId = useGongZuoEditModal((state) => state.gongzuoId);
   const { data } = useQueryGongzuoById(handleErrorMessage, gongzuoId);
   const { user } = useLoggedInUser(handleErrorMessage);
+  if (gongzuoId == null) {
+    return null;
+  }
   if (!data || !user) {
     return <Loading />;
   }
