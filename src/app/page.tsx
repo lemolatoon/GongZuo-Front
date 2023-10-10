@@ -12,11 +12,11 @@ import { selectAll, useQueryAllGonzuos } from "@/hooks/useAllGongzuos";
 import { useErrorMessageHandler } from "@/hooks/useErrorHandler";
 import { Toaster } from "@/components/ui/toaster";
 import { ConnectedStatusDisplay } from "@/components/StatusDisplay";
-import { GongZuoTimeline } from "@/components/GongZuoTimeline/GongZuoTimeline";
 import { ConnectedGongZuoTimeline } from "@/components/GongZuoTimeline/ConnectedGongZuoTimeline";
 import { useQueryAllUsers } from "@/hooks/useAllUsers";
 import { ConnectedGongZuoEditModal } from "@/components/GongZuoEditModal";
 import { ConnectedTimelineDateAction } from "@/components/TimelineDateAction";
+import { ConnectedRegisterModal } from "@/components/RegisterModal";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +76,7 @@ const Inner = () => {
     return (
       <>
         <ConnectedLoginForm />
+        <ConnectedRegisterModal />
       </>
     );
   }

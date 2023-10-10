@@ -1,0 +1,1 @@
+export { ConnectedRegisterModal } from "./ConnectedRegisterModal";

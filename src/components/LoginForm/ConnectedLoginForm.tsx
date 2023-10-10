@@ -5,6 +5,7 @@ import { useUserClient } from "@/state/client";
 import { errorHandler } from "@/lib/error";
 import { useSession } from "@/hooks/useSession";
 import { useErrorMessageHandler } from "@/hooks/useErrorHandler";
+import { useRegisterModal } from "@/state/modal";
 
 export const ConnectedLoginForm = () => {
   const form = useForm<Input>();
@@ -27,5 +28,14 @@ export const ConnectedLoginForm = () => {
     },
     [userClient, handleErrorMessage, setSessionToken]
   );
-  return <LoginForm form={form} onSubmit={onSubmit} />;
+  const { open: openRegisterModal } = useRegisterModal((state) => ({
+    open: state.open,
+  }));
+  return (
+    <LoginForm
+      form={form}
+      onSubmit={onSubmit}
+      openRegisterModal={openRegisterModal}
+    />
+  );
 };

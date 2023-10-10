@@ -7,9 +7,14 @@ import { Input } from "@/components/ui/input";
 export type Input = Parameters<UsersApi["login"]>[0];
 type Props = {
   onSubmit: SubmitHandler<Input>;
+  openRegisterModal(): void;
   form: ReturnType<typeof useForm<Input>>;
 };
-export const LoginForm: React.FC<Props> = ({ onSubmit, form }) => {
+export const LoginForm: React.FC<Props> = ({
+  onSubmit,
+  openRegisterModal,
+  form,
+}) => {
   const { register, handleSubmit } = form;
   return (
     <div className="flex items-center justify-center">
@@ -31,6 +36,9 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, form }) => {
             type="password"
             {...register("password")}
           />
+        </div>
+        <div className="mt-2 flex justify-end text-blue-400 hover:text-blue-300 cursor-pointer">
+          <a onClick={openRegisterModal}>ユーザー登録</a>
         </div>
         <Button className="mt-4" type="submit" variant="secondary">
           Sign in
