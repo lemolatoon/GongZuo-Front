@@ -59,6 +59,8 @@ export const useInvalidateAllGongzuos = () => {
 };
 
 const selectAll = (gongzuos: Gongzuo[]) => gongzuos;
+const selectOneUser = (userId: number) => (gongzuos: Gongzuo[]) =>
+  gongzuos.filter((gongzuo) => gongzuo.userId === userId);
 const selectOngoing = (userId: number | undefined) => {
   const now = new Date();
   return (gongzuos: Gongzuo[]) => {
@@ -111,4 +113,10 @@ const selectDuration =
       });
   };
 
-export { selectAll, selectOngoing, selectStatus, selectDuration };
+export {
+  selectAll,
+  selectOngoing,
+  selectStatus,
+  selectDuration,
+  selectOneUser,
+};

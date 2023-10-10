@@ -16,7 +16,7 @@ export const useRegister = (handler: Handler) => {
         errorHandler(e, handler);
       }
     },
-    [handler, userClient]
+    [handler, invalidate, userClient]
   );
 
   return {

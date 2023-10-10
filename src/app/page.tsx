@@ -17,6 +17,7 @@ import { useQueryAllUsers } from "@/hooks/useAllUsers";
 import { ConnectedGongZuoEditModal } from "@/components/GongZuoEditModal";
 import { ConnectedTimelineDateAction } from "@/components/TimelineDateAction";
 import { ConnectedRegisterModal } from "@/components/RegisterModal";
+import { ConnectedGongZuoList } from "@/components/GongZuoList";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const Inner = () => {
             <ConnectedTimelineDateAction className="mt-8 w-[400px]" />
           </div>
           <ConnectedGongZuoEditModal />
+          <ConnectedGongZuoList className="mt-8" />
           <h1>{data?.length}</h1>
           <div>{JSON.stringify(data)}</div>
           <Button variant="secondary" onClick={logout}>
