@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn api:init && next build",
     "start": "next start",
     "lint": "next lint",
     "api:init": "openapi-generator-cli generate -g typescript-fetch -i https://raw.githubusercontent.com/lemolatoon/GongZuo-Infra/master/gongzuo.yaml  -o src/apiClient --additional-properties=supportsES6=true,useSingleRequestParameter=false",

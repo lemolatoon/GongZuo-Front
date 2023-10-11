@@ -19,7 +19,8 @@ type Story = StoryObj<typeof GongZuoEditModal>;
 
 export const Default: Story = {
   args: {
-    onSubmit: action("onSubmit"),
+    onEdit: action("onEdit"),
+    onDelete: action("onDelete"),
   },
   render: (...args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
