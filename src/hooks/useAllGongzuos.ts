@@ -114,7 +114,7 @@ const selectDuration =
   };
 
 export {
-  selectAll,
+  selectAll as selectAllGongzuos,
   selectOngoing,
   selectStatus,
   selectDuration,

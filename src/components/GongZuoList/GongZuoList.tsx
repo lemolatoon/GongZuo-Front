@@ -1,6 +1,6 @@
 import React from "react";
 import { TwoRadioGroup } from "../ui/two-radio-group";
-import { Gongzuo } from "@/apiClient";
+import { Gongzuo, User } from "@/apiClient";
 import { ContentKindExt, ContentKindFromNumber } from "@/lib/contentKind";
 import { Button } from "../ui/button";
 import dayjs from "dayjs";
@@ -12,7 +12,7 @@ export enum GongZuoListType {
 type Props = {
   className?: string;
   listType: GongZuoListType;
-  gongzuos: Gongzuo[];
+  joinedGongzuos: (Gongzuo & User)[];
   userId: number;
   setListType(type: GongZuoListType): void;
   openEditModal(gongzuoId: number): void;
@@ -20,7 +20,7 @@ type Props = {
 export const GongZuoList: React.FC<Props> = ({
   className,
   listType,
-  gongzuos,
+  joinedGongzuos,
   userId,
   setListType,
   openEditModal,
@@ -40,10 +40,11 @@ export const GongZuoList: React.FC<Props> = ({
         />
         <div className="w-full flex justify-center">
           <div className="w-full mt-8 border-2 border-black">
-            {gongzuos.map((gongzuo) => {
+            {joinedGongzuos.map((gongzuo) => {
               const {
                 id: gongzuoId,
                 userId: gongzuoUserId,
+                username,
                 contentKind,
                 content,
                 startedAt,
@@ -59,7 +60,10 @@ export const GongZuoList: React.FC<Props> = ({
                   break;
               }
               return (
-                <div key={gongzuoId} className="grid grid-cols-4">
+                <div key={gongzuoId} className="grid grid-cols-5">
+                  <div className="flex flex-col items-center justify-center">
+                    {username}
+                  </div>
                   <div className="flex flex-col items-center justify-center">
                     {kind}
                   </div>

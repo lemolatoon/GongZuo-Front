@@ -8,12 +8,12 @@ import { ConnectedGongZuoAction } from "@/components/GongZuoAction";
 import { ConnectedGyomuRadioButton } from "@/components/GyomuRadioButton";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { selectAll, useQueryAllGonzuos } from "@/hooks/useAllGongzuos";
+import { selectAllGongzuos, useQueryAllGonzuos } from "@/hooks/useAllGongzuos";
 import { useErrorMessageHandler } from "@/hooks/useErrorHandler";
 import { Toaster } from "@/components/ui/toaster";
 import { ConnectedStatusDisplay } from "@/components/StatusDisplay";
 import { ConnectedGongZuoTimeline } from "@/components/GongZuoTimeline/ConnectedGongZuoTimeline";
-import { useQueryAllUsers } from "@/hooks/useAllUsers";
+import { selectAllUsers, useQueryAllUsers } from "@/hooks/useAllUsers";
 import { ConnectedGongZuoEditModal } from "@/components/GongZuoEditModal";
 import { ConnectedTimelineDateAction } from "@/components/TimelineDateAction";
 import { ConnectedRegisterModal } from "@/components/RegisterModal";
@@ -25,8 +25,8 @@ const Inner = () => {
   const { handleErrorMessage } = useErrorMessageHandler();
   const { user } = useLoggedInUser(handleErrorMessage);
   const { logout } = useLogout();
-  const { data } = useQueryAllGonzuos(handleErrorMessage, selectAll);
-  const { data: users } = useQueryAllUsers(handleErrorMessage);
+  const { data } = useQueryAllGonzuos(handleErrorMessage, selectAllGongzuos);
+  const { data: users } = useQueryAllUsers(handleErrorMessage, selectAllUsers);
   if (!users) {
     return <div>loading...</div>;
   }
