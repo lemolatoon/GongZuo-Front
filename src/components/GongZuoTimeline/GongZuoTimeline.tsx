@@ -113,10 +113,10 @@ export const GongZuoTimeline: React.FC<Props> = ({
   return (
     <div className={`w-full grid grid-cols-[100px_1fr] ${className}`}>
       <div className="text-lg">{name}: </div>
-      <div className="ml-4 grid grid-cols-97">
+      <div className="grid grid-cols-97">
         {fifteenMinutesInfos.map((info, i) => {
           let className =
-            "border-black border-t-2 border-b-2 border-l-[0.1px] border-timeline w-[0.75em] h-full";
+            "border-black border-t-2 border-b-2 border-l-[0.1px] border-timeline w-[0.5rem] h-full";
           if (info.state === "done") {
             if (info.gongzuoDuration.kind === ContentKindExt.WORK) {
               className += " bg-green-300";
@@ -136,7 +136,7 @@ export const GongZuoTimeline: React.FC<Props> = ({
             return (
               <>
                 <div className={`absolute h-full`}>
-                  <div className="h-[120%] border-dashed border-l-[0.1px] border-black w-[0.75em]" />
+                  <div className="h-[120%] border-dashed border-l-[0.1px] border-black w-[0.5rem]" />
                   <div
                     className="text-center -translate-x-1/2"
                     style={{ fontSize: "1px" }}

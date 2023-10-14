@@ -26,8 +26,8 @@ export const GongZuoList: React.FC<Props> = ({
   openEditModal,
 }) => {
   return (
-    <div className={`mx-8 flex w-full justify-center ${className}`}>
-      <div className="w-full flex flex-col justify-start">
+    <div className={`flex w-full justify-center ${className}`}>
+      <div className="w-4/5 flex flex-col justify-start">
         <TwoRadioGroup
           className="flex justify-center"
           kind={"horizontal"}
